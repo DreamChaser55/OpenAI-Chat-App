@@ -1,4 +1,4 @@
-# OpenAI AI Chat Desktop App v0.6
+# OpenAI AI Chat Desktop App
 
 A desktop GUI application for interacting with OpenAI family of language models. Built with Python and `tkinter`, this app provides a robust and user-friendly interface for managing multiple chat conversations with advanced features like reasoning effort control and precise token tracking.
 
@@ -85,27 +85,6 @@ This application allows users to chat with various OpenAI models through a clean
 * **Reasoning Control**: Adjust reasoning effort for models that support it to balance response quality and processing time.
 * **Message History**: Click on any previous message to view its full content and token count.
 
-## Version History
-
-### Version 0.6 *(Latest)*
-- **Added**: Reasoning effort selector for compatible models (gpt-5 family)
-- **Added**: Per-conversation reasoning settings with live UI updates
-- **Fixed**: UI synchronization and conversation switching bugs
-- **Fixed**: Recursion issues and duplicate method cleanup
-- **Improved**: Conversation management and control wiring
-
-### Version 0.5
-- **Added**: Enhanced token counting with tiktoken integration
-- **Added**: Improved conversation threading with response IDs
-- **Added**: Better client wrapper architecture
-- **Improved**: Message sending and reply extraction reliability
-
-### Version 0.4 and Earlier
-- Basic multi-conversation management
-- OpenAI API integration
-- Dark theme interface
-- Windows taskbar notifications
-
 ## Troubleshooting
 
 * **"Models not loading"**: Ensure your API key is valid and has proper permissions.
@@ -113,5 +92,6 @@ This application allows users to chat with various OpenAI models through a clean
 * **"Taskbar flashing not working"**: Install `pywin32` or run on Windows for this feature.
 
 ## License
+
 
 All content and source code for this application are subject to the terms of the MIT License.
