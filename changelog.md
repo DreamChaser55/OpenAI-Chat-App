@@ -1,5 +1,25 @@
 # Changelog — OpenAI Interface App
 
+## Version 0.6.2
+
+### Added
+- Ctrl+Enter in the prompt editor to send the current prompt.
+
+### Changed
+- Reasoning compatibility expanded:
+  - `_is_reasoning_compatible_model()` now enables reasoning effort for models starting with `gpt-5`, `o1`, and `o3`.
+
+### Fixed
+- Cross-platform maximize behavior:
+  - Attempt `root.state('zoomed')`, fall back to `root.attributes('-zoomed', True)`, then to a near-fullscreen geometry if needed.
+- Reasoning Effort combobox handling:
+  - Values now include "(unavailable)" so disabled controls render correctly.
+  - "(unavailable)" is a UI-only sentinel; the control is disabled for incompatible models and never propagates this value to the session or API.
+  - Applies to both the New Conversation dialog and the main-window control.
+
+### Removed
+- Unused `struct` import.
+
 ## Version 0.6.1
 
 ### Improved
