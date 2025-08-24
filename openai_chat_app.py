@@ -10,7 +10,6 @@ try:
     # Attempt to import necessary pywin32 modules
     import win32gui
     import win32con
-    import struct
     # Flag to indicate if flashing is supported (Windows and pywin32 installed)
     _FLASH_WINDOW_SUPPORTED = sys.platform == 'win32'
 except ImportError:
@@ -213,10 +212,13 @@ class OpenAIChatSession:
     def _is_reasoning_compatible_model(model_name: str) -> bool:
         """
         Returns True if the given model supports the reasoning.effort parameter.
-        Initial rule: enable for gpt-5 family models.
+        Enabled for gpt-5 and o1/o3 model families.
         """
         try:
-            return bool(model_name) and str(model_name).startswith("gpt-5")
+            if not model_name:
+                return False
+            mn = str(model_name).lower()
+            return mn.startswith("gpt-5") or mn.startswith("o1") or mn.startswith("o3")
         except Exception:
             return False
 
@@ -366,7 +368,8 @@ class NewConversationDialog(tk.Toplevel):
         # Reasoning Effort (enabled for compatible models)
         ttk.Label(self, text="Reasoning Effort:").grid(row=3, column=0, sticky=tk.W, pady=5)
         self.reasoning_combobox = ttk.Combobox(self, textvariable=self.reasoning_effort_var,
-                                               values=["low", "medium", "high"], state="disabled", width=47)
+                                               values=["(unavailable)", "low", "medium", "high"],
+                                               state="disabled", width=47)
         self.reasoning_combobox.grid(row=3, column=1, sticky=tk.EW, pady=5)
         self.reasoning_effort_var.set("(unavailable)")
 
@@ -529,7 +532,20 @@ class AIChatApp:
 
         self._create_widgets()
 
-        self.root.state('zoomed')  # Maximize window
+        # Cross-platform maximize handling
+        try:
+            self.root.state('zoomed')  # Windows and some X11
+        except Exception:
+            try:
+                self.root.attributes('-zoomed', True)  # Some Tk variants (e.g., Linux)
+            except Exception:
+                try:
+                    # Fallback: near-fullscreen geometry
+                    w = self.root.winfo_screenwidth() - 100
+                    h = self.root.winfo_screenheight() - 100
+                    self.root.geometry(f"{w}x{h}+50+50")
+                except Exception:
+                    pass
 
     def _setup_dark_theme(self):
         """Configures ttk styles for a dark theme."""
@@ -649,7 +665,7 @@ class AIChatApp:
         self.reasoning_effort_combobox = ttk.Combobox(
             self.conversation_select_frame,
             textvariable=self.reasoning_effort_ui_var,
-            values=["low", "medium", "high"],
+            values=["(unavailable)", "low", "medium", "high"],
             state="disabled",
             width=10
         )
@@ -766,9 +782,17 @@ class AIChatApp:
         self.prompt_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.prompt_text_editor.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
+        # Implement Ctrl+Enter to send
+        self.prompt_text_editor.bind("<Control-Return>", self._on_ctrl_enter_send)
+
         # Button to send the prompt (below the editor frame)
         self.send_button = ttk.Button(prompt_frame, text="Send", command=self.send_prompt)
         self.send_button.pack(pady=5)
+
+    def _on_ctrl_enter_send(self, event):
+        """Handle Ctrl+Enter in the prompt editor to send the prompt."""
+        self.send_prompt()
+        return "break"
 
     def _insert_message_to_treeview(self, role, message_content):
         """
