@@ -1,4 +1,4 @@
-# OpenAI AI Chat Desktop App
+# OpenAI AI Chat Desktop App v0.6.2
 
 A desktop GUI application for interacting with OpenAI family of language models. Built with Python and `tkinter`, this app provides a robust and user-friendly interface for managing multiple chat conversations with advanced features like reasoning effort control and precise token tracking.
 
@@ -13,7 +13,7 @@ This application allows users to chat with various OpenAI models through a clean
 * **Flexible Configuration**: Assign a different OpenAI model and API key to each conversation.
 * **Reasoning Effort Control** *(New in v0.6)*: 
     * Configure reasoning effort levels (low/medium/high) for compatible models.
-    * Currently supports models in the gpt-5 family.
+    * Currently supports models in the o1, o3 and gpt-5 family.
     * Per-conversation reasoning settings with live UI updates.
 * **Dynamic Model Loading**: Automatically fetches and displays a list of available OpenAI models directly from the API, ensuring you always have access to the latest versions.
 * **API Key Management**: For convenience, the app can read your OpenAI API key from a local `OpenAI_API_key.txt` file, or you can enter it directly in the UI.
@@ -75,7 +75,7 @@ This application allows users to chat with various OpenAI models through a clean
 1. **Launch the app** and click "New Conversation" to create your first conversation.
 2. **Enter your API key** (or the app will auto-load from `OpenAI_API_key.txt` if available).
 3. **Select a model** by clicking "Load Models" to fetch available options from OpenAI.
-4. **Choose reasoning effort** (for compatible models like gpt-5) - options are low, medium, or high.
+4. **Choose reasoning effort** (for compatible models like o1, o3 and gpt-5) - options are low, medium, or high.
 5. **Name your conversation** for easy identification.
 6. **Start chatting** by typing in the prompt area and clicking "Send" or pressing Ctrl+Enter.
 
@@ -85,13 +85,16 @@ This application allows users to chat with various OpenAI models through a clean
 * **Reasoning Control**: Adjust reasoning effort for models that support it to balance response quality and processing time.
 * **Message History**: Click on any previous message to view its full content and token count.
 
+## Version History
+
+See the changelog.md file.
+
 ## Troubleshooting
 
 * **"Models not loading"**: Ensure your API key is valid and has proper permissions.
-* **"Reasoning controls disabled"**: Reasoning effort is only available for compatible models (currently gpt-5 family).
+* **"Reasoning controls disabled"**: Reasoning effort is only available for compatible models (currently o1, o3 and gpt-5 family).
 * **"Taskbar flashing not working"**: Install `pywin32` or run on Windows for this feature.
 
 ## License
-
 
 All content and source code for this application are subject to the terms of the MIT License.
